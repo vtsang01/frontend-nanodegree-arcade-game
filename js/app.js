@@ -35,6 +35,8 @@ var Player = function() {
     // we've provided one for you to get started
     var moveX = 101; 
     var moveY = 82; 
+    this.updateX = 0; 
+    this.updateY = 0;
     this.x = 2 * moveX; 
     this.y = (5 * moveY) - 5;  
     // The image/sprite for our player, this uses
@@ -45,8 +47,12 @@ var Player = function() {
 // This class requires an update(),
 Player.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
-    // which wilsure the game runs at the same speed for
-    // all computers 
+    // which will ensure the game runs at the same speed for
+    // all computers
+    this.x += this.updateX; 
+    this.y += this.updateY; 
+    this.updateX = 0; 
+    this.updateY = 0;
 }
 
 // Draw the enemy on the screen, required method for game
@@ -64,22 +70,22 @@ Player.prototype.handleInput = function(key){
     switch(key){
         case "up":
             if(this.y > topLeftBound){
-                this.y -= moveY; 
+                this.updateY = -1 * moveY; 
             }
             break; 
         case "down":
             if(this.y < bottomRightBound){
-                this.y += moveY; 
+                this.updateY = moveY; 
             }
             break; 
         case "left":
             if(this.x > topLeftBound){
-                this.x -= moveX; 
+                this.updateX = -1 * moveX; 
             }
             break; 
         case "right":
             if(this.x < bottomRightBound){
-                this.x += moveX; 
+                this.updateX = moveX; 
             }
             break; 
     }
