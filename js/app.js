@@ -19,9 +19,22 @@ Enemy.prototype.update = function(dt) {
     var moveSpeed = this.speed * dt;
     this.x += moveSpeed; 
 
-    if(this.x > 505){
-        this.x = -120; 
+    var xBound = 505;
+    var restartPos = -120;  
+    if(this.x > xBound){
+        this.x = restartPos; 
     } 
+
+    // collision with player
+    
+    
+    if(Math.round((this.y / 82)) === Math.round(player.y / 82) &&
+       Math.round((this.x / 101)) === Math.round(player.x / 101)){
+        var moveX = 101; 
+        var moveY = 83;
+        player.x = 2 * moveX; 
+        player.y = (5 * moveY) - 5;  
+    }
 }
 
 // Draw the enemy on the screen, required method for game
@@ -36,7 +49,7 @@ var Player = function() {
     var moveX = 101; 
     var moveY = 82; 
     this.updateX = 0; 
-    this.updateY = 0;
+    this.updateY = 0; 
     this.x = 2 * moveX; 
     this.y = (5 * moveY) - 5;  
     // The image/sprite for our player, this uses
@@ -49,13 +62,21 @@ Player.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers
-    this.x += this.updateX; 
-    this.y += this.updateY; 
+    if(this.y < 0){
+        var moveX = 101; 
+        var moveY = 82; 
+        this.x = 2 * moveX; 
+        this.y = (5 * moveY) - 5;  
+    }
+    else {
+        this.x += this.updateX; 
+        this.y += this.updateY;
+    } 
     this.updateX = 0; 
     this.updateY = 0;
 }
 
-// Draw the enemy on the screen, required method for game
+// j the enemy on the screen, required method for game
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
